@@ -19,6 +19,11 @@ public class Product {
         cantidad = _cantidad;
     }
     
+    public Product(int _code,int _cantidad){
+        code = Integer.toString(_code);
+        cantidad = Integer.toString(_cantidad);
+    }
+    
     public String getCode() {
         return code;
     }
@@ -35,8 +40,25 @@ public class Product {
         this.cantidad = cantidad;
     }
     
+    public void setCantidad(String cantidad1,String cantidad2) {
+        int Total = Integer.parseInt(cantidad1) + Integer.parseInt(cantidad2);
+        this.setCantidad(Integer.toString(Total));
+    }
+    
     @Override
     public String toString(){
         return "Producto: " + code + ",Cantidad: " + cantidad;
+    }
+    
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Product product = (Product)obj;
+        return this.code.equals(product.code);
     }
 }

@@ -1,33 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
--->
-
-
-<Tienda>
+--><Tienda>
     <name>tienda1</name>
     <products>
-        <product>
-            <code>1</code>
-            <cantidad>100</cantidad>
-        </product>
-        <product>
-            <code>2</code>
-            <cantidad>100</cantidad>
-        </product>
-        <product>
-            <code>3</code>
-            <cantidad>100</cantidad>
-        </product>
-        <product>
-            <code>4</code>
-            <cantidad>100</cantidad>
-        </product>
-        <product>
-            <code>5</code>
-            <cantidad>100</cantidad>
-        </product>
-    </products>
+    <product id="1"><code>1</code><cantidad>70</cantidad></product><product id="2"><code>2</code><cantidad>100</cantidad></product><product id="3"><code>3</code><cantidad>100</cantidad></product><product id="4"><code>4</code><cantidad>100</cantidad></product><product id="5"><code>5</code><cantidad>100</cantidad></product></products>
 </Tienda>

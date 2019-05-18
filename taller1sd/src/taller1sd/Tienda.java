@@ -14,14 +14,24 @@ import java.util.List;
  */
 public class Tienda {
     private String name;
-    private List<Product> Products;
+    private List<Product> products;
     
     public Tienda(){
-        Products = new ArrayList<Product>();
+        products = new ArrayList<Product>();
+    }
+    
+    public Tienda(String _name){
+        name = _name;
+        products = new ArrayList<Product>();
+    }
+    
+    public Tienda(String _name,List<Product> _products){
+        name = _name;
+        products = _products;
     }
     
     public void addProduct(Product product){
-        Products.add(product);
+        products.add(product);
     }
 
     public String getName() {
@@ -33,15 +43,18 @@ public class Tienda {
     }
 
     public List<Product> getProducts() {
-        return Products;
+        return products;
     }
 
     public void setProducts(List<Product> Products) {
-        this.Products = Products;
+        this.products = Products;
     }
     
     @Override
     public String toString(){
-        return "Tienda: " + name;
+        String retorno;
+        retorno = "Tienda: " + name + "\nProductos:\n";
+        retorno = products.stream().map((product) -> "*\t" + product.toString() + "\n").reduce(retorno, String::concat);
+        return retorno;
     }
 }
