@@ -46,16 +46,15 @@ public class Server {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String greeting = in.readLine();
 
-        if (greeting.startsWith("regparticipante")) {
+        if (greeting.startsWith("regtienda")) {
 
-            int totallength = "regparticipante".length();
+            int totallength = "regtienda".length();
 
-            String partipante = greeting.substring(totallength, totallength + 4);
+            String tienda = greeting.substring(totallength, totallength + 4);
             String puerto = greeting.substring(totallength + 4, totallength + 8);
             String ip = greeting.substring(totallength + 8);
-
             // agregar participante
-            this.participant.put(partipante, puerto + ":" + ip);
+            this.participant.put(tienda, puerto + ":" + ip);
 
             // paseo por cada uno de los elementos de los participantes para enviar la lista
             for (Map.Entry<String, String> entry : participant.entrySet()) {
