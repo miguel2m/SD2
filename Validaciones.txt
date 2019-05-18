@@ -1,0 +1,22 @@
+1) Cuando se agrega productos a la tienda, ver cuales son los productos 
+disponibles.
+2)txt nombre de la tienda, código del producto y cantidad.
+3)todas las tiendas inician con 5 productos con 100 articulos por producto.
+4)Cantidad de tienda activasTiendas activas
+5) tienda tiene puerto unico, 9000 - 9500, ip y nombre unico
+6) Se manda un objeto con el nombre de la tienda con la suma sucesiva
+de todas las tiendas activas.
+7) Prguntar la carga de PRODUCTOS
+8) Preguntar por que el mensaje de listar Listar productos de la empresa por tienda:
+posee cantidad.
+9) Verificar que el mensaje paso por todas las tiendas activas
+
+------------------
+Deficion del potocolo
+1)Listar empresa: "Listar EMpresa"#"TND(1)". Envia todos los producto/codigo/cantidad del producto
+   TND = Tienda que esta soliciando.
+2)Cargar producto de la empresa: "Cargar Producto"#TND(1)#Cantidad del producto 
+(La replica seria si la tienda no lo tiene seria 0, sino no se suma)
+3) Listar productos de la empresa por tienda:
+"Listar tienda"#TNDOrigen#TNDDestino (se necesita la ip).
+4) Agregar tiendas al sistema : regTienda#puerto#ip
