@@ -211,7 +211,7 @@ public class Lector {
         saveData();
     }
     
-    public void restProduct(String _code,String _cantidad){
+    public void SumProduct(String _code,String _cantidad){
         XPath xpath = XPathFactory.newInstance().newXPath();
         try {
             NodeList nodes = (NodeList)xpath.evaluate
@@ -219,7 +219,7 @@ public class Lector {
             for (int i = 0; i < nodes.getLength(); i++) {
                 
                 String cantidad = nodes.item(i).getChildNodes().item(1).getTextContent();
-                int total = Integer.parseInt(cantidad) - Integer.parseInt(_cantidad);
+                int total = Integer.parseInt(cantidad) + Integer.parseInt(_cantidad);
                 if (total >= 0){
                     String STotal = Integer.toString(total);
                     nodes.item(i).getChildNodes().item(1).setTextContent(STotal);

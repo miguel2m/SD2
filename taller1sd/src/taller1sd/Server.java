@@ -176,8 +176,8 @@ public class Server {
             Lector lector = new Lector();
             Tienda tienda = lector.getTienda();
              String[] parts = greeting.split("-");
-            String codigo = parts[2];
-            String cantidad = parts[3];
+            String codigo = parts[1];
+            String cantidad = parts[2];
             
             for (Map.Entry<String, String> entry : tiendas.entrySet()) {
                     String key = entry.getKey();
