@@ -65,71 +65,62 @@ public class Server {
             String puerto = parts[2];
             String ip = parts[3];
             // agregar participante
-            this.tiendas.put(tienda, ip + ":" + puerto);
+            if (!tiendas.containsKey(tienda)) {
+                this.tiendas.put(tienda, ip + ":" + puerto);
 
-            // paseo por cada uno de los elementos de los participantes para enviar la lista
-            for (Map.Entry<String, String> entry : tiendas.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
+                // paseo por cada uno de los elementos de los participantes para enviar la lista
+                for (Map.Entry<String, String> entry : tiendas.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
 
-                if (!key.equals(this.name)) {
+                    String[] parts1 = value.split(":");
+                    String ipDestino = parts1[0];
+                    String puertoDestino = parts1[1];
 
-                    ClientMessage sendmessage = new ClientMessage();
-                    sendmessage.startConnection(ip, new Integer(puerto));
-                    sendmessage.sendMessage("actualizalista" + "##" + g.toJson(tiendas));
+                    if (!key.equals(this.name)) {
+
+                        ClientMessage sendmessage = new ClientMessage();
+                        sendmessage.startConnection(ipDestino, new Integer(puertoDestino));
+                        sendmessage.sendMessage("actualizalista-" + "##" + g.toJson(tiendas));
+
+                    }
                     
                 }
-
-            }
-
-            out.println("agregadoparticipante");
-
+                System.out.println(tiendas.toString());
+                System.out.println("Tienda " + tienda +" agregada");
+                out.println("Se registro una nueva tienda");
+            }else{out.println("Tienda ya registrada");}
         }else if(greeting.startsWith("actualizalista")){
             System.out.println(greeting);
             String[] parts = greeting.split("##");
             this.tiendas = g.fromJson(parts[1],HashMap.class);
 
-        }else if (greeting.startsWith("recibepapa")) {
+        }else if (greeting.startsWith("tiendaInv")) {
 
-            this.tengopapa = true;
-            System.out.println("TEngo la papa " + this.name);
-            out.println("tienes la papa" + this.name);
-            // agregar participante
+            String[] parts = greeting.split("-");
+            if (parts[1].equals(this.name)){
+                Lector lector = new Lector();
+                Tienda tienda = lector.getTienda();
+                out.println(g.toJson(tienda));
+            }else{
+                String direccion = this.tiendas.get(parts[1]);
+                parts = direccion.split(":");
+                String ipDestino = parts[0];
+                String puertoDestino = parts[1];
 
-            if (this.finishGame && this.tengopapa) {
-
-                System.out.println("perdiste:" + this.name);
-                System.exit(0);
+                ClientMessage sendmessage = new ClientMessage();
+                sendmessage.startConnection(ipDestino, new Integer(puertoDestino));
+                String response = sendmessage.sendMessage("getInventario");
+                Tienda tienda = g.fromJson(response, Tienda.class);
+                System.out.println(tienda.toString());
             }
+            
 
-        } else if (greeting.startsWith("sequemo")) {
+        } else if (greeting.startsWith("getInventario")) {
 
-            this.finishGame = true;
-
-            // agregar participante
-            if (this.finishGame && this.tengopapa) {
-
-                System.out.println("perdiste:" + this.name);
-                System.exit(0);
-            }
-
-            if (!this.sendFinishGame) {
-                for (Map.Entry<String, String> entry : tiendas.entrySet()) {
-                    String key = entry.getKey();
-                    String value = entry.getValue();
-
-                    if (!key.equals(this.name)) {
-                        SendMessageThread hilo = new SendMessageThread();
-                        hilo.setSeconds(0);
-                        hilo.setValue(value);
-                        hilo.setMessage("sequemo");
-                        (new Thread(hilo)).start();
-                    }
-
-                }
-                this.sendFinishGame = true;
-            }
-            out.println("finish se quemo");
+            Lector lector = new Lector();
+            Tienda tienda = lector.getTienda();
+            out.println(g.toJson(tienda));
 
         } else if (greeting.startsWith("actualizalista")) {
 

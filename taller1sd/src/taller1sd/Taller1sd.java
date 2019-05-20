@@ -42,6 +42,9 @@ public class Taller1sd {
                 String response = message.sendMessage(args[3]);
                 //String response = message.sendMessage("inventario");
                 System.out.println("Respuesta server: " + response);
+                /*while (true){
+                    
+                }*/
                 
             } catch (IOException ex) {
                 System.out.println("error client message");
