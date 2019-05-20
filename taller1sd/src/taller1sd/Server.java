@@ -88,6 +88,7 @@ public class Server {
             System.out.println(greeting);
             String[] parts = greeting.split("##");
             this.tiendas = g.fromJson(parts[1],HashMap.class);
+
         }else if (greeting.startsWith("recibepapa")) {
 
             this.tengopapa = true;
