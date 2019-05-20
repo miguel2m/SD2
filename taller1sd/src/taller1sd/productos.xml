@@ -5,5 +5,5 @@ and open the template in the editor.
 --><Tienda>
     <name>tienda1</name>
     <products>
-    <product id="1"><code>1</code><cantidad>70</cantidad></product><product id="2"><code>2</code><cantidad>100</cantidad></product><product id="3"><code>3</code><cantidad>100</cantidad></product><product id="4"><code>4</code><cantidad>100</cantidad></product><product id="5"><code>5</code><cantidad>100</cantidad></product></products>
+    <product id="1"><code>1</code><cantidad>500</cantidad></product><product id="2"><code>2</code><cantidad>100</cantidad></product><product id="3"><code>3</code><cantidad>100</cantidad></product><product id="4"><code>4</code><cantidad>100</cantidad></product><product id="5"><code>5</code><cantidad>100</cantidad></product></products>
 </Tienda>

@@ -49,7 +49,7 @@ public class Taller1sd {
             } catch (IOException ex) {
                 System.out.println("error client message");
                 Logger.getLogger(Taller1sd.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
             
             
         

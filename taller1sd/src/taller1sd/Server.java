@@ -103,16 +103,20 @@ public class Server {
                 Tienda tienda = lector.getTienda();
                 out.println(g.toJson(tienda));
             }else{
-                String direccion = this.tiendas.get(parts[1]);
-                parts = direccion.split(":");
-                String ipDestino = parts[0];
-                String puertoDestino = parts[1];
+                if (this.tiendas.containsKey(parts[1])){
+                    String direccion = this.tiendas.get(parts[1]);
+                    parts = direccion.split(":");
+                    String ipDestino = parts[0];
+                    String puertoDestino = parts[1];
 
-                ClientMessage sendmessage = new ClientMessage();
-                sendmessage.startConnection(ipDestino, new Integer(puertoDestino));
-                String response = sendmessage.sendMessage("getInventario");
-                Tienda tienda = g.fromJson(response, Tienda.class);
-                System.out.println(tienda.toString());
+                    ClientMessage sendmessage = new ClientMessage();
+                    sendmessage.startConnection(ipDestino, new Integer(puertoDestino));
+                    String response = sendmessage.sendMessage("getInventario");
+                    Tienda tienda = g.fromJson(response, Tienda.class);
+                    out.println(tienda.toString());
+                } else{
+                    out.println("Tienda no registrada");
+                }
             }
             
 
@@ -133,7 +137,27 @@ public class Server {
                 this.tiendas.put(finaltmp[0], finaltmp[1]);
             }
 
-        } else {
+        } else if (greeting.startsWith("invEmpresa")){
+            Lector lector = new Lector();
+            Tienda tienda = lector.getTienda();
+            for (Map.Entry<String, String> entry : tiendas.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    String[] parts = value.split(":");
+                    String ipDestino = parts[0];
+                    String puertoDestino = parts[1];
+
+                    if (!key.equals(this.name)){
+                        ClientMessage sendmessage = new ClientMessage();
+                        sendmessage.startConnection(ipDestino, new Integer(puertoDestino));
+                        String response = sendmessage.sendMessage("getInventario");
+                        Tienda tiendaResponse = g.fromJson(response, Tienda.class);
+                        tienda.sumarInventario(tiendaResponse);
+                    }
+                }
+            out.println(tienda.toString());
+        }
+        else {
             System.out.println("Mensaje no reconocido");
             out.println("mensaje corrupto vete de aqui");
         }

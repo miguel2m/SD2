@@ -50,6 +50,20 @@ public class Tienda {
         this.products = Products;
     }
     
+    public Tienda sumarInventario(Tienda _tienda){
+        List<Product> productos = _tienda.getProducts();
+        
+        for(int i = 0;i < productos.size();i++){
+            if (this.products.contains(products.get(i))){
+                Product product = this.products.get(i);
+                product.setCantidad(product.getCantidad(), products.get(i).getCantidad());
+            } else{
+                this.products.add(products.get(i));
+            }
+        }
+        return this;
+    }
+    
     @Override
     public String toString(){
         String retorno;
