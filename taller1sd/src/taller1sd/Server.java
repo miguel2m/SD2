@@ -156,6 +156,53 @@ public class Server {
                     }
                 }
             out.println(g.toJson(tienda));
+        } else if (greeting.startsWith("recivePro")){
+            Lector lector = new Lector();
+            Tienda tienda = lector.getTienda();
+            String[] parts = greeting.split("-");
+            String codigo = parts[1];
+            String cantidad = parts[2];
+            
+            Product product = new Product(codigo,cantidad);
+            if (tienda.getProducts().contains(product)){
+                lector.SumProduct(codigo, cantidad);
+                out.println("Producto sumado al stock en tienda " + this.name);
+            } else{
+                lector.AddProduct(codigo, cantidad);
+                out.println("Producto agregado al stock en tienda " + this.name);
+            }
+            
+        }else if (greeting.startsWith("cargarPro")){
+            Lector lector = new Lector();
+            Tienda tienda = lector.getTienda();
+             String[] parts = greeting.split("-");
+            String codigo = parts[2];
+            String cantidad = parts[3];
+            
+            for (Map.Entry<String, String> entry : tiendas.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    parts = value.split(":");
+                    String ipDestino = parts[0];
+                    String puertoDestino = parts[1];
+
+                    if (!key.equals(this.name)){
+                        ClientMessage sendmessage = new ClientMessage();
+                        sendmessage.startConnection(ipDestino, new Integer(puertoDestino));
+                        String mensaje = "recivePro-" + codigo + "-" + 0;
+                        String response = sendmessage.sendMessage(mensaje);
+                    } else{
+                        Product product = new Product(codigo,cantidad);
+                        if (tienda.getProducts().contains(product)){
+                            lector.SumProduct(codigo, cantidad);
+                            out.println("Producto sumado al stock en tienda " + this.name);
+                        } else{
+                            lector.AddProduct(codigo, cantidad);
+                            out.println("Producto agregado al stock en tienda " + this.name);
+                        }
+                    }
+                }
+            out.println(g.toJson(tienda));
         }
         else {
             System.out.println("Mensaje no reconocido");
