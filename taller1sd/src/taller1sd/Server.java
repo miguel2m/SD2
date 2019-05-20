@@ -155,7 +155,7 @@ public class Server {
                         tienda.sumarInventario(tiendaResponse);
                     }
                 }
-            out.println(tienda.toString());
+            out.println(g.toJson(tienda));
         }
         else {
             System.out.println("Mensaje no reconocido");

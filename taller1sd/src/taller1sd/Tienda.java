@@ -51,14 +51,15 @@ public class Tienda {
     }
     
     public Tienda sumarInventario(Tienda _tienda){
-        List<Product> productos = _tienda.getProducts();
+        List<Product> _productos = _tienda.getProducts();
         
-        for(int i = 0;i < productos.size();i++){
-            if (this.products.contains(products.get(i))){
-                Product product = this.products.get(i);
-                product.setCantidad(product.getCantidad(), products.get(i).getCantidad());
+        for(int i = 0;i < _productos.size();i++){
+            if (this.products.contains(_productos.get(i))){
+                int j = this.products.indexOf(_productos.get(i));
+                Product product = this.products.get(j);
+                product.setCantidad(product.getCantidad(), _productos.get(i).getCantidad());
             } else{
-                this.products.add(products.get(i));
+                this.products.add(_productos.get(i));
             }
         }
         return this;
