@@ -29,7 +29,7 @@ public class Server {
     private PrintWriter out;
     private BufferedReader in;
 
-    private HashMap<String, String> participant = new HashMap<String, String>();
+    private HashMap<String, String> tiendas = new HashMap<String, String>();
     private boolean finishGame = false;
     private boolean tengopapa = false;
     private String name = "";
@@ -63,10 +63,10 @@ public class Server {
             String puerto = parts[2];
             String ip = parts[3];
             // agregar participante
-            this.participant.put(tienda, ip + ":" + puerto);
+            this.tiendas.put(tienda, ip + ":" + puerto);
 
             // paseo por cada uno de los elementos de los participantes para enviar la lista
-            for (Map.Entry<String, String> entry : participant.entrySet()) {
+            for (Map.Entry<String, String> entry : tiendas.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
 
@@ -82,7 +82,9 @@ public class Server {
 
             out.println("agregadoparticipante");
 
-        } else if (greeting.startsWith("recibepapa")) {
+        }else if(greeting.startsWith("actualizalista")){
+            System.out.println(greeting);
+        }else if (greeting.startsWith("recibepapa")) {
 
             this.tengopapa = true;
             System.out.println("TEngo la papa " + this.name);
@@ -107,7 +109,7 @@ public class Server {
             }
 
             if (!this.sendFinishGame) {
-                for (Map.Entry<String, String> entry : participant.entrySet()) {
+                for (Map.Entry<String, String> entry : tiendas.entrySet()) {
                     String key = entry.getKey();
                     String value = entry.getValue();
 
@@ -129,10 +131,10 @@ public class Server {
             String lista = greeting.substring("actualizalista".length());
 
             String[] listatmp = lista.split(",");
-            this.participant = new HashMap<String, String>();
+            this.tiendas = new HashMap<String, String>();
             for (String tmp : listatmp) {
                 String[] finaltmp = tmp.split("#");
-                this.participant.put(finaltmp[0], finaltmp[1]);
+                this.tiendas.put(finaltmp[0], finaltmp[1]);
             }
 
         } else {
@@ -162,7 +164,7 @@ public class Server {
 
         boolean found = false;
 
-        for (Map.Entry<String, String> entry : participant.entrySet()) {
+        for (Map.Entry<String, String> entry : tiendas.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
 
@@ -189,7 +191,7 @@ public class Server {
         }
 
         if (this.tengopapa) {
-            Map.Entry<String, String> entry = this.participant.entrySet().iterator().next();
+            Map.Entry<String, String> entry = this.tiendas.entrySet().iterator().next();
             String key = entry.getKey();
             String value = entry.getValue();
 
@@ -207,7 +209,7 @@ public class Server {
 
         String finallista = "";
 
-        for (Map.Entry<String, String> entry : participant.entrySet()) {
+        for (Map.Entry<String, String> entry : tiendas.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             finallista += key + "#" + value + ",";
