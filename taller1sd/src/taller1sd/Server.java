@@ -46,15 +46,24 @@ public class Server {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String greeting = in.readLine();
 
-        if (greeting.startsWith("regtienda")) {
-
+        if(greeting.startsWith("inventario")){
+            Lector lector = new Lector();
+            System.out.println(lector.getTienda());
+            
+        } else if (greeting.startsWith("regtienda")) {
+            /*
             int totallength = "regtienda".length();
-
+            
             String tienda = greeting.substring(totallength, totallength + 4);
             String puerto = greeting.substring(totallength + 4, totallength + 8);
             String ip = greeting.substring(totallength + 8);
+            */
+            String[] parts = greeting.split("-");
+            String tienda = parts[1];
+            String puerto = parts[2];
+            String ip = parts[3];
             // agregar participante
-            this.participant.put(tienda, puerto + ":" + ip);
+            this.participant.put(tienda, ip + ":" + puerto);
 
             // paseo por cada uno de los elementos de los participantes para enviar la lista
             for (Map.Entry<String, String> entry : participant.entrySet()) {
@@ -64,7 +73,7 @@ public class Server {
                 if (!key.equals(this.name)) {
 
                     ClientMessage sendmessage = new ClientMessage();
-                    sendmessage.startConnection(value.substring(5), new Integer(value.substring(0, 4)));
+                    sendmessage.startConnection(ip, new Integer(puerto));
                     sendmessage.sendMessage("actualizalista" + this.serializarLista());
 
                 }

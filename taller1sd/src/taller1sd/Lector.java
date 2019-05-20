@@ -7,6 +7,7 @@ package taller1sd;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,23 +42,60 @@ import org.xml.sax.SAXException;
  */
 public class Lector {
     
-    private String fileName = "C:\\Users\\Fabian Graterol\\Desktop\\universidad\\9no semestre\\distribuidas\\proyecto 1\\SD2\\taller1sd\\src\\taller1sd\\productos.xml";
+    //private String fileName = "C:\\Users\\Fabian Graterol\\Desktop\\universidad\\9no semestre\\distribuidas\\proyecto 1\\SD2\\taller1sd\\src\\taller1sd\\productos.xml";
+        private String fileName = "productos.xml";
+
     private Document doc;
     
     public Lector(){
         try{
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        //URL url = getClass().getResource(fileName);
-        //File fXmlFile = new File(url.toURI());
-        File fXmlFile = new File(fileName);
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        doc = dBuilder.parse(fXmlFile);
-        doc.getDocumentElement().normalize();
+            this.getDoc();
         }
-        catch(DOMException | ParserConfigurationException | SAXException | IOException e){
-            System.out.println("archivo no encontrado");
-        } 
+        catch(NullPointerException e){
+            this.createDoc();
+        }
+    }
+    
+    private void getDoc() throws NullPointerException{
+        try{
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            URL url = getClass().getResource(fileName);
+            URI uri = url.toURI();
+            File fXmlFile = new File(uri);
+            //File fXmlFile = new File(fileName);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
+        }catch (ParserConfigurationException | SAXException | IOException | URISyntaxException ex) {
+            Logger.getLogger(Lector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void createDoc(){
+            try {
+                DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+                Document document = documentBuilder.newDocument();
+                
+                Element root = document.createElement("Tienda");
+                document.appendChild(root);
+                
+                //save the new document
+                URL url = getClass().getResource(fileName);
+                //URI uri = url.toURI();
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		StreamResult result = new StreamResult(new File(this.fileName));
+                transformer.transform(source, result);
+                
+                //this.getDoc();
+            } catch (ParserConfigurationException | TransformerConfigurationException ex) {
+                Logger.getLogger(Lector.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TransformerException ex) {
+                Logger.getLogger(Lector.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     
     public static void main(String[] args) {
@@ -202,15 +240,18 @@ public class Lector {
             Transformer transformer;
             transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            //URL url = getClass().getResource(fileName);
-            //StreamResult result = new StreamResult(new File(url.toURI()));
-            StreamResult result = new StreamResult(fileName);
+            URL url = getClass().getResource(fileName);
+            URI uri = url.toURI();
+            StreamResult result = new StreamResult(new File(uri));
+            //StreamResult result = new StreamResult(fileName);
             transformer.transform(source, result);
             
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(Lector.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
             Logger.getLogger(Lector.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }   catch (URISyntaxException ex) {
+                Logger.getLogger(Lector.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 }

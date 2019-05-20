@@ -18,9 +18,9 @@ public class Test {
         Lector lector = new Lector();
         //System.out.println(lector.sumProducts(Test.mockTienda()).toString());
         //lector.sumProducts(Test.mockTienda());
-        lector.restProduct("1", "30");
+        //lector.restProduct("2", "30");
         //lector.AddProduct("5", "100");
-        System.out.println(lector.getTienda());
+        //System.out.println(lector.getTienda());
     }
     
     public static Tienda mockTienda(){

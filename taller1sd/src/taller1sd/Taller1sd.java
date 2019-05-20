@@ -38,9 +38,9 @@ public class Taller1sd {
                 
                 ClientMessage message = new ClientMessage();
                 message.startConnection(args[1], new Integer(args[2]));
-                
+                //message.startConnection("192.168.43.162", 9010);
                 String response = message.sendMessage(args[3]);
-                
+                //String response = message.sendMessage("inventario");
                 System.out.println("Respuesta server: " + response);
                 
             } catch (IOException ex) {
